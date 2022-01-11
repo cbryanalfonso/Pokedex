@@ -15,7 +15,7 @@ function Pokedex({navigation}) {
             .then((value) => value.json())
             .then((value) => {
                 setPokemoness(value);
-                console.log(value.results);
+               /// console.log(value.results);
             });
     }, [URL]);
     return (
