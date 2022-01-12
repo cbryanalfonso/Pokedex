@@ -5,6 +5,7 @@ import Informacion from './Informacion';
 import Pokedex from './Pokedex/Pokedex';
 import AppBottomNavigator from './AppBottomNavigator';
 import { StatusBar } from 'react-native';
+import PokemonIndividual from './Pokemon/PokemonIndividual';
 
 
 const Stack = createNativeStackNavigator();
@@ -13,12 +14,15 @@ function App() {
     return (
         <NavigationContainer>
             <StatusBar
-                backgroundColor='#ecf0f1'
+                backgroundColor='white'
                 barStyle='dark-content'
             />
             <Stack.Navigator initialRouteName="AppBottomNavigator">
                 <Stack.Screen name="AppBottomNavigator" component={AppBottomNavigator}
                     options={{ title: 'Interfaz Principal', headerShown: false }}
+                />
+                <Stack.Screen name="PokemonIndividual" component={PokemonIndividual}
+                     options={{headerShown: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
