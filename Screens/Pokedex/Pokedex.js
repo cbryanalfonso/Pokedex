@@ -88,7 +88,11 @@ function Pokedex({ navigation }) {
                                 type="material-community"
                                 color="gray"
                                 size={35}
-                                onPress={() => setURL(Pokemoness.previous)}
+                                onPress={() => {
+                                   Pokemoness?.previous ? (
+                                    setURL(Pokemoness.previous)
+                                   ):null
+                                }}
                             />
                         </View>
                         <View style={[styles.headers, { alignItems: 'flex-end' }]}>

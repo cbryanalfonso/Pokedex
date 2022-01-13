@@ -1,21 +1,50 @@
-import React, { useEffect } from 'react'
-import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { backgroundColors } from '../assets/Colors';
+import AboutModal from '../Pokedex/Components/AboutModal';
 import Tag from '../Pokedex/Components/Tag';
 
 
 function PokemonIndividual({ route, navigation }) {
     //console.log(JSON.stringify(pokemon));
     const { pokemon } = route.params;
+    const [showAbout, setShowAbout] = useState(true)
+    const [species, setSpecies] = useState([])
+    const [info, setInfo] = useState([])
+    
+    const render = () => {
+        var myloop = [];
+
+        for (let i = 0; i < 3; i++) {
+            myloop.push(
+                <View key={i}>
+                    <Text>{i}</Text>
+                </View>
+            );
+        }
+    }
+   
+    useEffect(() => {
+        fetch(pokemon.species.url)
+            .then((value) => value.json())
+            .then((value) => {
+                setSpecies(value)
+                console.log(value.flavor_text_entries[6].flavor_text);
+                setInfo(value.flavor_text_entries[6].flavor_text)
+                //console.log(value.flavor_text_entries[6].flavor_text);
+                //setInfo(species.flavor_text_entries[6].flavor_text)
+            });
+
+    }, []);
 
     return (
         <View style={{ flex: 1, backgroundColor: backgroundColors[pokemon.types[0].type.name], }}>
             <StatusBar
-                backgroundColor= {backgroundColors[pokemon.types[0].type.name]}
+                backgroundColor={backgroundColors[pokemon.types[0].type.name]}
                 barStyle='dark-content'
             />
-            <View style={{ flex: 1,  margin: 5, flexDirection: 'row', }}>
+            <View style={{ flex: 1, margin: 5, flexDirection: 'row', }}>
                 <View style={[styles.headers, { alignItems: 'flex-start' }]}>
                     <Icon
                         name="keyboard-backspace"
@@ -31,22 +60,73 @@ function PokemonIndividual({ route, navigation }) {
                         type="material-community"
                         color="white"
                         size={30}
-                        onPress={() => console.log("Menu")}
+                        onPress={() => console.log('info')}
                     />
                 </View>
             </View>
-            <View style={{ flex: 1.2,  margin: 5, paddingLeft: 30, justifyContent: 'center' }}>
-                <Text  style={{ fontWeight: 'bold', fontSize: 35 }}>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</Text>
+            <View style={{ flex: 1.2, margin: 5, paddingLeft: 30, justifyContent: 'center' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 35 }}>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</Text>
             </View>
-            <View style={{ flex: 1.2,  margin: 5, paddingLeft: 30, }}>
-           <Tag type={pokemon.types[0].type.name}/>
+            <View style={{ flex: 1.2, margin: 5, paddingLeft: 30, }}>
+                <Tag type={pokemon.types[0].type.name} />
             </View>
-            <View style={{ flex: 4,  margin: 5, alignItems: 'center', justifyContent: 'center' }}>
-                <Image style={{ width: 300, height: 300, marginTop: -20}}
+            <View style={{ flex: 4, margin: 5, alignItems: 'center', justifyContent: 'center' }}>
+                <Image style={{ width: 300, height: 300, marginTop: -20 }}
                     source={{ uri: pokemon.sprites.front_default }} />
             </View>
             <View style={{ flex: 8, backgroundColor: 'white', borderTopLeftRadius: 30, borderTopRightRadius: 30 }}>
+                <View style={{
+                    flex: 1.5,
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+                }}>
 
+                    <TouchableOpacity style={{ padding: 20 }}
+                        onPress={() => console.log((pokemon.abilities[0].ability.name))}
+                    >
+                        <Text style={styles.txtBotones}>About</Text>
+                    </TouchableOpacity >
+                    <TouchableOpacity style={{ padding: 20 }}>
+                        <Text style={styles.txtBotones}>Base Stats</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 20 }}>
+                        <Text style={styles.txtBotones}>Evolution</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 20 }}>
+                        <Text style={styles.txtBotones}>Moves</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ flex: 6.5 }}>
+                    {showAbout && (
+                        <View style={{ flex: 6.5 }}>
+                            <ScrollView>
+                                <View style={{ paddingLeft: 30, marginBottom: 10,  }}>
+                                    <Text style={[styles.txtAboutInformacion, {textAlign: 'justify'}]}>{info}</Text>
+                                </View>
+                                <View style={{ flex: 4, flexDirection: 'row', }}>
+                                    <View style={{ flex: 1, paddingLeft: 30 }}>
+                                        <Text style={styles.txtAbout}>Species</Text>
+                                        <Text style={styles.txtAbout}>Height</Text>
+                                        <Text style={styles.txtAbout}>Weight</Text>
+                                        <Text style={styles.txtAbout}>Abilities</Text>
+                                    </View>
+                                    <View style={{ flex: 2 }}>
+                                        <Text style={styles.txtAboutInformacion}></Text>
+                                        <Text style={styles.txtAboutInformacion}>{(pokemon.height/3.048).toFixed(1)} in ({(pokemon.height*10)} cm)</Text>
+                                        <Text style={styles.txtAboutInformacion}>{(pokemon.weight/4.536).toFixed(1)} lb ({(pokemon.weight/10)} kg)</Text>
+                                        <Text style={styles.txtAboutInformacion}>{pokemon.abilities[0].ability.name}</Text>
+                                    </View>
+                                </View>
+                                <View style={{ flex: 2.5 }}>
+
+                                </View>
+                            </ScrollView>
+                        </View>
+                    )
+                    }
+
+                </View>
 
             </View>
         </View>
@@ -65,12 +145,29 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'red'
     },
+    txtBotones: {
+        color: 'black',
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
+    txtAbout: {
+        color: 'gray',
+        fontSize: 15,
+        fontWeight: 'bold',
+        paddingVertical: 7
+    },
+    txtAboutInformacion: {
+        color: 'black',
+        fontSize: 15,
+        fontWeight: 'bold',
+        paddingVertical: 7
+    },
 })
 
 export default PokemonIndividual;
 
 
-// Corazones:  heart-outline  
+// Corazones:  heart-outline
 // relleno:    cards-heart 
 
 
