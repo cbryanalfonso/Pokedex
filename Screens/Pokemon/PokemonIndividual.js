@@ -12,7 +12,8 @@ function PokemonIndividual({ route, navigation }) {
     const [showAbout, setShowAbout] = useState(true)
     const [species, setSpecies] = useState([])
     const [info, setInfo] = useState([])
-    
+    const [huevos, setHuevos] = useState("")
+
     const render = () => {
         var myloop = [];
 
@@ -24,7 +25,7 @@ function PokemonIndividual({ route, navigation }) {
             );
         }
     }
-   
+
     useEffect(() => {
         fetch(pokemon.species.url)
             .then((value) => value.json())
@@ -32,6 +33,9 @@ function PokemonIndividual({ route, navigation }) {
                 setSpecies(value)
                 console.log(value.flavor_text_entries[6].flavor_text);
                 setInfo(value.flavor_text_entries[6].flavor_text)
+                console.log(value.egg_groups[0].name);
+                setHuevos(value.egg_groups[0].name);
+                //setGroups(value.egg_groups[0].name);
                 //console.log(value.flavor_text_entries[6].flavor_text);
                 //setInfo(species.flavor_text_entries[6].flavor_text)
             });
@@ -60,7 +64,7 @@ function PokemonIndividual({ route, navigation }) {
                         type="material-community"
                         color="white"
                         size={30}
-                        onPress={() => console.log('info')}
+                        onPress={() => console.log(huevos)}
                     />
                 </View>
             </View>
@@ -101,8 +105,8 @@ function PokemonIndividual({ route, navigation }) {
                     {showAbout && (
                         <View style={{ flex: 6.5 }}>
                             <ScrollView>
-                                <View style={{ paddingLeft: 30, marginBottom: 10,  }}>
-                                    <Text style={[styles.txtAboutInformacion, {textAlign: 'justify'}]}>{info}</Text>
+                                <View style={{ paddingLeft: 30, marginBottom: 10, }}>
+                                    <Text style={[styles.txtAboutInformacion, { textAlign: 'justify' }]}>{info}</Text>
                                 </View>
                                 <View style={{ flex: 4, flexDirection: 'row', }}>
                                     <View style={{ flex: 1, paddingLeft: 30 }}>
@@ -113,13 +117,29 @@ function PokemonIndividual({ route, navigation }) {
                                     </View>
                                     <View style={{ flex: 2 }}>
                                         <Text style={styles.txtAboutInformacion}></Text>
-                                        <Text style={styles.txtAboutInformacion}>{(pokemon.height/3.048).toFixed(1)} in ({(pokemon.height*10)} cm)</Text>
-                                        <Text style={styles.txtAboutInformacion}>{(pokemon.weight/4.536).toFixed(1)} lb ({(pokemon.weight/10)} kg)</Text>
-                                        <Text style={styles.txtAboutInformacion}>{pokemon.abilities[0].ability.name}</Text>
+                                        <Text style={styles.txtAboutInformacion}>{(pokemon.height / 3.048).toFixed(1)} in ({(pokemon.height * 10)} cm)</Text>
+                                        <Text style={styles.txtAboutInformacion}>{(pokemon.weight / 4.536).toFixed(1)} lb ({(pokemon.weight / 10)} kg)</Text>
+                                        <Text style={styles.txtAboutInformacion}>{pokemon.abilities[0].ability.name.charAt(0).toUpperCase() + pokemon.abilities[0].ability.name.slice(1)}</Text>
                                     </View>
                                 </View>
                                 <View style={{ flex: 2.5 }}>
+                                    <Text style={[styles.txtAboutInformacion, {
+                                        textAlign: 'justify', paddingLeft: 30, fontSize: 23,
+                                        fontWeight: 'bold',
+                                    }]}>Breeding</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <View style={{ flex: 1, paddingLeft: 30 }}>
+                                            <Text style={styles.txtAbout}>Gender</Text>
+                                            <Text style={styles.txtAbout}>Egg groups</Text>
+                                            <Text style={styles.txtAbout}>Egg Cycle</Text>
+                                        </View>
+                                        <View style={{ flex: 2 }}>
+                                            <Text style={styles.txtAboutInformacion}></Text>
+                                            <Text style={styles.txtAboutInformacion}>{huevos.charAt(0).toUpperCase() + huevos.slice(1)}</Text>
+                                            <Text style={styles.txtAboutInformacion}>{pokemon.types[0].type.name.charAt(0).toUpperCase() + pokemon.types[0].type.name.slice(1)}</Text>
 
+                                        </View>
+                                    </View>
                                 </View>
                             </ScrollView>
                         </View>
@@ -159,7 +179,6 @@ const styles = StyleSheet.create({
     txtAboutInformacion: {
         color: 'black',
         fontSize: 15,
-        fontWeight: 'bold',
         paddingVertical: 7
     },
 })
