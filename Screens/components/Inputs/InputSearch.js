@@ -9,8 +9,9 @@ const InputSearch =({...props}) =>{
             placeholder={props.placeholder}
             leftIcon={<Icon type="material-community" name="magnify" size={19} color={'black'} />}
             inputContainerStyle={{borderBottomWidth: 0}}
+            
             onChangeText={value => onChangeText(value)}
-            style={props.addStyle ? props.addStyle : null}
+            style={[{color: '#212121'},props.addStyle ? props.addStyle : null]}
         />
     )
 }

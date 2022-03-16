@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { Icon } from "react-native-elements";
+import { heightPercentageToDP } from "react-native-responsive-screen";
 import ModalMenu from "../../views/Modal/ModalMenu";
 
 export default function Header ({navigation}){
@@ -16,10 +17,12 @@ export default function Header ({navigation}){
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        //flex: 1,
+        height: heightPercentageToDP(100)
     },
     header: {
-        flex: 0.08,
+        //flex: 0.08
+        height: heightPercentageToDP(7),
         elevation: 10,
         backgroundColor: '#F5DB13',
         flexDirection: "row",
