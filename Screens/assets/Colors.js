@@ -39,6 +39,35 @@ const colors = {
     steel: '#4C91B2',
     water: '#58ABF6',
   };
+
+  const backgroundColorNewFormat ={
+    Stile: '#A1A1A1',
+    dark: '#A1A1A1',
+    rock: '#A1A1A1',
+
+    grass: '#70A83B',
+    bug: '#70A83B',
+
+    ice: '#A2CFF0',
+    water: '#A2CFF0',
+
+    fire: '#F76545',
+    fighting: '#F76545',
+    dragon: '#F76545',
+
+    normal: '#76AADB',
+    ghost: '#76AADB',
+
+    poison: '#A974BC',
+    psychic: '#A974BC',
+    fairy: '#A974BC',
+    ghost: '#A974BC',
+    
+    ground: '#9B897B',
+    
+    electric:'#F7C545',
+
+  }
   
   const textColor = {
     white: '#FFF',
@@ -50,4 +79,4 @@ const colors = {
   const customColor = {
     input: '#F2F2F2',
   };
-  export {colors, backgroundColors, textColor, customColor};
+  export {colors, backgroundColors, textColor, customColor, backgroundColorNewFormat};

@@ -33,7 +33,7 @@ export default function Home({navigation}) {
                 />
             </View>
             <View style={{alignItems: "center"}}>
-                <Button txt={'See pokemons'} style={'botonInicio'}/>
+                <Button txt={'See pokemons'} style={'botonInicio'} onPress={()=> {navigation.navigate('Pokedex')}}/>
             </View>
             <ModalMenu isVisible={showMenu} setVisible={setShowMenu} navigation={navigation}/>
         </LinearGradient>

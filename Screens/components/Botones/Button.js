@@ -4,7 +4,7 @@ import { Text, TouchableOpacity } from "react-native";
 
 export default function Button ({...props}){
     return(
-        <TouchableOpacity style={[getButtonStyle(props.style), props.addStyle]}>
+        <TouchableOpacity style={[getButtonStyle(props.style), props.addStyle]} onPress={props.onPress}>
             <Text style={[getTextStyle(props.style)]} >{props.txt}</Text>
         </TouchableOpacity>
     )

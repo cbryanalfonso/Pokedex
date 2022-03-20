@@ -7,6 +7,7 @@ import { StatusBar } from 'react-native';
 import PokemonIndividual from './Pokemon/PokemonIndividual';
 import Home from './views/Home/Home';
 import Pokedex from './views/MenuPoke/Pokedex';
+import PokeIndividual from './views/MenuPoke/PokeIndividual';
 
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ function App() {
             <Stack.Navigator initialRouteName="AppBottomNavigator">
                 <Stack.Screen name='Home' component={Home} options={{headerShown: false}}/>
                 <Stack.Screen name='Pokedex' component={Pokedex} options={{headerShown: false}} />
+                <Stack.Screen name='PokeIndividual' component={PokeIndividual} />
                 {/* <Stack.Screen name="AppBottomNavigator" component={AppBottomNavigator}
                     options={{ title: 'Interfaz Principal', headerShown: false }}
                 />

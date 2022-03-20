@@ -9,22 +9,22 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import Pokemones from "../../components/cards/Pokemones";
 
 export default function Pokedex({ navigation }) {
-    const[pokeData, setPokeData] = useState([])
-    useEffect(()=>{
+    const [pokeData, setPokeData] = useState([])
+    useEffect(() => {
         fetch('https://pokeapi.co/api/v2/pokemon')
-        .then((value)=>value.json())
-        .then(value => {
-            //console.log(value.results);
-            setPokeData(value.results)
-        })
-    },[])
+            .then((value) => value.json())
+            .then(value => {
+                //console.log(value.results);
+                setPokeData(value.results)
+            })
+    }, [])
 
     const renderItem = ({ item }) => (
         <Pokemones navigation={navigation} item={item} />
-    ) 
+    )
     return (
         <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.container}>
+            <View style={styles.container}>
                 <Header />
                 <View style={styles.title}>
                     <TextUI style={'titleNormal'} txt={'800 '} addStyle={styles.txtStyle} />
@@ -39,7 +39,7 @@ export default function Pokedex({ navigation }) {
                         <InputSearch placeholder={"Search a pokemon"} />
                     </View>
                 </View>
-                <View style={{height: hp(65), paddingHorizontal: wp(5)}}>
+                <View style={{ height: hp(65), paddingHorizontal: wp(5) }}>
                     <FlatList
                         data={pokeData}
                         keyExtractor={item => item.id}
@@ -54,7 +54,7 @@ export default function Pokedex({ navigation }) {
                         }
                     />
                 </View>
-        </View>
+            </View>
         </KeyboardAvoidingView>
     )
 }

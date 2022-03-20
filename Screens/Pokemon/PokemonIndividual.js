@@ -30,9 +30,9 @@ function PokemonIndividual({ route, navigation }) {
         fetch(pokemon.species.url)
             .then((value) => value.json())
             .then((value) => {
-                setSpecies(value)
-                console.log(value.flavor_text_entries[6].flavor_text);
-                setInfo(value.flavor_text_entries[6].flavor_text)
+               // setSpecies(value)
+                //console.log(value.flavor_text_entries[6].flavor_text);
+                //setInfo(value.flavor_text_entries[6].flavor_text)
                 console.log(value.egg_groups[0].name);
                 setHuevos(value.egg_groups[0].name);
                 //setGroups(value.egg_groups[0].name);
