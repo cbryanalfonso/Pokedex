@@ -68,6 +68,15 @@ const colors = {
     electric:'#F7C545',
 
   }
+
+  const coloresFigma = {
+    Danger: '#D93E30',
+    white:'#F6F7F9',
+    dark: '#212121',
+    Thirf: '#F5DB13',
+    Primary: '#F2B807',
+    Second:'#F28F16',
+  }
   
   const textColor = {
     white: '#FFF',
@@ -79,4 +88,4 @@ const colors = {
   const customColor = {
     input: '#F2F2F2',
   };
-  export {colors, backgroundColors, textColor, customColor, backgroundColorNewFormat};
+  export {colors, backgroundColors, textColor, customColor, backgroundColorNewFormat,coloresFigma};

@@ -7,13 +7,25 @@ import TextUI from "../../components/Texto/TextUI";
 import ModalMenu from "../Modal/ModalMenu";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Pokemones from "../../components/cards/Pokemones";
+import Error from "../../components/NoInternet/Error";
 
 export default function Pokedex({ navigation }) {
     const [pokeData, setPokeData] = useState([])
+    const [noInternet, setNoInternet] = useState(false);
     useEffect(() => {
         fetch('https://pokeapi.co/api/v2/pokemon')
-            .then((value) => value.json())
-            .then(value => {
+            .then((value) => {
+                console.log(value.status);
+                if (value.status != "200") {
+                    setNoInternet(true);
+                    console.log('No hay internet...');
+                } else {
+                    //setNoInternet(false)
+                    console.log("Si hay internet");
+                    return value.json();
+                }
+            })
+            .then((value) => {
                 //console.log(value.results);
                 setPokeData(value.results)
             })
@@ -23,39 +35,43 @@ export default function Pokedex({ navigation }) {
         <Pokemones navigation={navigation} item={item} />
     )
     return (
-        <KeyboardAvoidingView style={styles.container}>
-            <View style={styles.container}>
-                <Header />
-                <View style={styles.title}>
-                    <TextUI style={'titleNormal'} txt={'800 '} addStyle={styles.txtStyle} />
-                    <TextUI style={'titleBold'} txt={'Pokemons'} addStyle={styles.txtStyle} />
-                    <TextUI style={'titleNormal'} txt={' for you'} addStyle={styles.txtStyle} />
-                </View>
-                <View style={[styles.title, { paddingTop: 0, }]}>
-                    <TextUI style={'titleNormal'} txt={'to choose your favorite'} addStyle={styles.txtStyle} />
-                </View>
-                <View style={styles.filtros}>
-                    <View style={styles.btnSearch}>
-                        <InputSearch placeholder={"Search a pokemon"} />
+        <>
+            {noInternet ? <Error navigation={navigation}/> : (
+                <KeyboardAvoidingView style={styles.container}>
+                    <View style={styles.container}>
+                        <Header />
+                        <View style={styles.title}>
+                            <TextUI style={'titleNormal'} txt={'800 '} addStyle={styles.txtStyle} />
+                            <TextUI style={'titleBold'} txt={'Pokemons'} addStyle={styles.txtStyle} />
+                            <TextUI style={'titleNormal'} txt={' for you'} addStyle={styles.txtStyle} />
+                        </View>
+                        <View style={[styles.title, { paddingTop: 0, }]}>
+                            <TextUI style={'titleNormal'} txt={'to choose your favorite'} addStyle={styles.txtStyle} />
+                        </View>
+                        <View style={styles.filtros}>
+                            <View style={styles.btnSearch}>
+                                <InputSearch placeholder={"Search a pokemon"} />
+                            </View>
+                        </View>
+                        <View style={{ height: hp(65), paddingHorizontal: wp(5) }}>
+                            <FlatList
+                                data={pokeData}
+                                keyExtractor={item => item.id}
+                                renderItem={
+                                    ({ item, index }) => (
+                                        <Pokemones
+                                            item={item}
+                                            navigation={navigation}
+                                        //select={item.select}
+                                        //onPress={() => this.changeSelect(index, item.select)}
+                                        />)
+                                }
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={{ height: hp(65), paddingHorizontal: wp(5) }}>
-                    <FlatList
-                        data={pokeData}
-                        keyExtractor={item => item.id}
-                        renderItem={
-                            ({ item, index }) => (
-                                <Pokemones
-                                    item={item}
-                                    navigation={navigation}
-                                //select={item.select}
-                                //onPress={() => this.changeSelect(index, item.select)}
-                                />)
-                        }
-                    />
-                </View>
-            </View>
-        </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            )}
+        </>
     )
 }
 

@@ -8,6 +8,7 @@ import PokemonIndividual from './Pokemon/PokemonIndividual';
 import Home from './views/Home/Home';
 import Pokedex from './views/MenuPoke/Pokedex';
 import PokeIndividual from './views/MenuPoke/PokeIndividual';
+import Error from './components/NoInternet/Error';
 
 
 const Stack = createNativeStackNavigator();
@@ -22,7 +23,8 @@ function App() {
             <Stack.Navigator initialRouteName="AppBottomNavigator">
                 <Stack.Screen name='Home' component={Home} options={{headerShown: false}}/>
                 <Stack.Screen name='Pokedex' component={Pokedex} options={{headerShown: false}} />
-                <Stack.Screen name='PokeIndividual' component={PokeIndividual} />
+                <Stack.Screen name='PokeIndividual' component={PokeIndividual} options={{headerShown: false}}/>
+                <Stack.Screen name='ErrorScreen' component={Error} options={{headerShown: false}} />
                 {/* <Stack.Screen name="AppBottomNavigator" component={AppBottomNavigator}
                     options={{ title: 'Interfaz Principal', headerShown: false }}
                 />

@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
+import { coloresFigma } from "../../assets/Colors";
 
 
 export default function Button ({...props}){
@@ -20,6 +21,14 @@ const getButtonStyle = style => {
                 borderRadius: 20,
                 elevation: 10
             }   
+            case 'botonReturn':
+                return{
+                    backgroundColor: coloresFigma['Thirf'],
+                    width: "80%",
+                    paddingVertical: 15,
+                    borderRadius: 20,
+                    elevation: 10
+                }   
         
         default:
             return {
@@ -38,6 +47,13 @@ const getTextStyle = style =>{
                 fontSize: 23,
                 textAlign: 'center',
             }
+            case 'botonReturn':
+                return{
+                    color: 'black',
+                    fontWeight: 'bold',
+                    fontSize: 23,
+                    textAlign: 'center',
+                }
             default:
                 return {
                     color: '#FFFFFF',
