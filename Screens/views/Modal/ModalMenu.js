@@ -4,7 +4,7 @@ import { Icon } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
 import TextUI from "../../components/Texto/TextUI";
 
-export default function ModalMenu({ navigation, isVisible, setVisible }) {
+export default function ModalMenu({ navigation, isVisible, setVisible, pokeNavigate, pokeLegendarios, pokeTeam }) {
     return (
         <>
             <StatusBar
@@ -29,10 +29,11 @@ export default function ModalMenu({ navigation, isVisible, setVisible }) {
                         </View>
                         <View style={[styles.imgContainer, { flex: 0.5 }]}>
                             <TextUI style={'textoMenu'} txt={' Pokedex '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} onPress={() => {
-                                navigation.navigate('Pokedex')
+                                /* navigation.navigate('Pokedex') */
+                                pokeNavigate
                                 setVisible(false)
                             }} />
-                            <TextUI style={'textoMenu'} txt={' Legendarios '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} />
+                            <TextUI style={'textoMenu'} txt={' Legendarios '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} onPress={() => { pokeLegendarios }} />
                             <TextUI style={'textoMenu'} txt={' Equipo '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} />
                             <TextUI style={'textoMenu'} txt={' Documentación '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} />
                         </View>

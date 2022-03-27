@@ -2,16 +2,16 @@ import React from "react";
 import { Icon, Input } from "react-native-elements";
 
 
-const InputSearch =({...props}) =>{
+const InputSearch =({placeholder, value, onChangeText, addStyle}) =>{
     return(
         <Input
-            value={props.value}
-            placeholder={props.placeholder}
+            value={value}
+            placeholder={placeholder}
             leftIcon={<Icon type="material-community" name="magnify" size={19} color={'black'} />}
             inputContainerStyle={{borderBottomWidth: 0}}
             
             onChangeText={value => onChangeText(value)}
-            style={[{color: '#212121'},props.addStyle ? props.addStyle : null]}
+            style={[{color: '#212121'},addStyle ? addStyle : null]}
         />
     )
 }

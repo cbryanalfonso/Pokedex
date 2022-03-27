@@ -8,12 +8,17 @@ import ModalMenu from "../Modal/ModalMenu";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Pokemones from "../../components/cards/Pokemones";
 import Error from "../../components/NoInternet/Error";
+import PokemonSearch from "../../Pokedex/Components/PokemonSearch";
 
 export default function Pokedex({ navigation }) {
-    const [pokeData, setPokeData] = useState([])
+    const [pokeData, setPokeData] = useState([]);
     const [noInternet, setNoInternet] = useState(false);
+    const [txtSearch, setTxtSearch] = useState('');
+    const [pokeDataSearch, setPokeDataSearch] = useState([]);
+    const [showFlatlist, setShowFlatlist] = useState(true);
+    const url = 'https://pokeapi.co/api/v2/pokemon'
     useEffect(() => {
-        fetch('https://pokeapi.co/api/v2/pokemon')
+        fetch(url)
             .then((value) => {
                 console.log(value.status);
                 if (value.status != "200") {
@@ -28,15 +33,49 @@ export default function Pokedex({ navigation }) {
             .then((value) => {
                 //console.log(value.results);
                 setPokeData(value.results)
+                setShowFlatlist(true);
             })
     }, [])
+
+    const searchBusqueda = (text) => {
+        console.log(`${url}/${text}`);
+        fetch(`${url}/${text}`)
+            .then((value) => {
+                console.log(value.status);
+                if (value.status != "200") {
+                    //setNoInternet(true);
+                    // console.log('No hay internet...');
+                } else {
+                    //setNoInternet(false)
+                    console.log("Si hay internet");
+                    setShowFlatlist(false)
+                    return value.json();
+                }
+            })
+            .then((value) => {
+               // console.log("Si entra dentro de los value -> ", value);
+                setPokeDataSearch(value)
+                
+            })
+    }
+
+    const handleOnChange = text => {
+        if (text === '') {
+            setPokeData([]);
+            console.log('No hay nada que pueda funcionar.');
+            setShowFlatlist(true)
+        } else {
+            searchBusqueda(text.toLowerCase())
+        }
+        setTxtSearch(text)
+    }
 
     const renderItem = ({ item }) => (
         <Pokemones navigation={navigation} item={item} />
     )
     return (
         <>
-            {noInternet ? <Error navigation={navigation}/> : (
+            {noInternet ? <Error navigation={navigation} /> : (
                 <KeyboardAvoidingView style={styles.container}>
                     <View style={styles.container}>
                         <Header />
@@ -50,23 +89,43 @@ export default function Pokedex({ navigation }) {
                         </View>
                         <View style={styles.filtros}>
                             <View style={styles.btnSearch}>
-                                <InputSearch placeholder={"Search a pokemon"} />
+                                <InputSearch
+                                    placeholder={"Search a pokemon"}
+                                    value={txtSearch}
+                                    onChangeText={handleOnChange}
+                                />
                             </View>
                         </View>
                         <View style={{ height: hp(65), paddingHorizontal: wp(5) }}>
-                            <FlatList
-                                data={pokeData}
-                                keyExtractor={item => item.id}
-                                renderItem={
-                                    ({ item, index }) => (
-                                        <Pokemones
-                                            item={item}
-                                            navigation={navigation}
-                                        //select={item.select}
-                                        //onPress={() => this.changeSelect(index, item.select)}
-                                        />)
-                                }
-                            />
+                            {showFlatlist ? (
+                                <FlatList
+                                    data={pokeData}
+                                    keyExtractor={item => item.id}
+                                    renderItem={
+                                        ({ item, index }) => (
+                                            <Pokemones
+                                                item={item}
+                                                navigation={navigation}
+                                            //select={item.select}
+                                            //onPress={() => this.changeSelect(index, item.select)}
+                                            />)
+                                    }
+                                />
+                            ) : (
+                                <FlatList
+                                    data={pokeDataSearch}
+                                    keyExtractor={item => item.id}
+                                    renderItem={
+                                        ({ item, index }) => (
+                                            <PokemonSearch
+                                                item={item}
+                                                navigation={navigation}
+                                            //select={item.select}
+                                            //onPress={() => this.changeSelect(index, item.select)}
+                                            />)
+                                    }
+                                />
+                            )}
                         </View>
                     </View>
                 </KeyboardAvoidingView>
