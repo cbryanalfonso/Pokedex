@@ -25,6 +25,7 @@ function App() {
                 <Stack.Screen name='Pokedex' component={Pokedex} options={{headerShown: false}} />
                 <Stack.Screen name='PokeIndividual' component={PokeIndividual} options={{headerShown: false}}/>
                 <Stack.Screen name='ErrorScreen' component={Error} options={{headerShown: false}} />
+               
                 {/* <Stack.Screen name="AppBottomNavigator" component={AppBottomNavigator}
                     options={{ title: 'Interfaz Principal', headerShown: false }}
                 />

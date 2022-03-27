@@ -4,13 +4,13 @@ import { Icon } from "react-native-elements";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import ModalMenu from "../../views/Modal/ModalMenu";
 
-export default function Header ({navigation, ...props }){
+export default function Header ({navigation, pokeNavigate, pokeLegendarios, ...props }){
     const [showMenu, setShowMenu] = useState(false)
     return(
         <View style={styles.header}>
             <Image source={require('../../assets/img/pokeLogo-modified.png')} resizeMode='contain' style={{ width: 100, height: 100 }} />
                 <Icon type="material-community" name="menu" size={30} color='black' onPress={()=>setShowMenu(true)}/>
-                <ModalMenu isVisible={showMenu} setVisible={setShowMenu} navigation={navigation} pokeNavigate={props.pokeNavigate} pokeLegendarios={props.pokeLegendarios} />
+                <ModalMenu isVisible={showMenu} setVisible={setShowMenu} navigation={navigation} pokeNavigate={pokeNavigate} pokeLegendarios={pokeLegendarios} nameAux = {props.nameAux}/>
         </View>
     )
 }

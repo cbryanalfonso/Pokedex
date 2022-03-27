@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, KeyboardAvoidingView, StyleSheet, View } from "react-native";
+import { FlatList, Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Icon } from "react-native-elements";
 import Header from "../../components/header/Header";
 import InputSearch from "../../components/Inputs/InputSearch";
@@ -9,6 +9,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import Pokemones from "../../components/cards/Pokemones";
 import Error from "../../components/NoInternet/Error";
 import PokemonSearch from "../../Pokedex/Components/PokemonSearch";
+import Button from "../../components/Botones/Button";
 
 export default function Pokedex({ navigation }) {
     const [pokeData, setPokeData] = useState([]);
@@ -53,9 +54,10 @@ export default function Pokedex({ navigation }) {
                 }
             })
             .then((value) => {
-               // console.log("Si entra dentro de los value -> ", value);
-                setPokeDataSearch(value)
-                
+                setShowFlatlist(false)
+                //console.log("Si entra dentro de los value -> ", value);
+                setPokeDataSearch([value])
+
             })
     }
 
@@ -66,8 +68,23 @@ export default function Pokedex({ navigation }) {
             setShowFlatlist(true)
         } else {
             searchBusqueda(text.toLowerCase())
+            console.log('Estamos dentro');
         }
+        //setTxtSearch(text)
+    }
+    const handleOnChangetxt = text => {
         setTxtSearch(text)
+    }
+
+    function nosePoke() {
+        return pokeDataSearch.map(function (news, i) {
+            return (
+                <View key={i}>
+                    <Text>ds</Text>
+
+                </View>
+            )
+        })
     }
 
     const renderItem = ({ item }) => (
@@ -78,7 +95,7 @@ export default function Pokedex({ navigation }) {
             {noInternet ? <Error navigation={navigation} /> : (
                 <KeyboardAvoidingView style={styles.container}>
                     <View style={styles.container}>
-                        <Header />
+                        <Header pokeNavigate={()=>{navigation.navigate('Home')}} pokeLegendarios={()=>{navigation.navigate('Home')}} nameAux={' Home '}/>
                         <View style={styles.title}>
                             <TextUI style={'titleNormal'} txt={'800 '} addStyle={styles.txtStyle} />
                             <TextUI style={'titleBold'} txt={'Pokemons'} addStyle={styles.txtStyle} />
@@ -92,9 +109,21 @@ export default function Pokedex({ navigation }) {
                                 <InputSearch
                                     placeholder={"Search a pokemon"}
                                     value={txtSearch}
-                                    onChangeText={handleOnChange}
+                                    onChangeText={handleOnChangetxt}
                                 />
+
+                                {/*  <TextInput
+                                    placeholder="Search a pokemon"
+                                    value={txtSearch}
+                                    onChangeText={(text) =>setTxtSearch(text)}
+                                /> */}
                             </View>
+                            <Button
+                                style={'botonInicio'}
+                                txt='Search'
+                                addStyle={{ width: '20%' }}
+                                onPress={() => { handleOnChange(txtSearch) }}
+                            />
                         </View>
                         <View style={{ height: hp(65), paddingHorizontal: wp(5) }}>
                             {showFlatlist ? (
@@ -108,23 +137,31 @@ export default function Pokedex({ navigation }) {
                                                 navigation={navigation}
                                             //select={item.select}
                                             //onPress={() => this.changeSelect(index, item.select)}
+                                            //{
+                                            // nosePoke()
+                                            // }
                                             />)
                                     }
                                 />
                             ) : (
-                                <FlatList
-                                    data={pokeDataSearch}
-                                    keyExtractor={item => item.id}
-                                    renderItem={
-                                        ({ item, index }) => (
-                                            <PokemonSearch
-                                                item={item}
-                                                navigation={navigation}
-                                            //select={item.select}
-                                            //onPress={() => this.changeSelect(index, item.select)}
-                                            />)
-                                    }
-                                />
+                                <>
+                                    <FlatList
+                                        data={pokeDataSearch}
+                                        keyExtractor={item => item.id}
+                                        renderItem={
+                                            ({ item, index }) => (
+                                                <PokemonSearch
+                                                    item={item}
+                                                    navigation={navigation}
+                                                //select={item.select}
+                                                //onPress={() => this.changeSelect(index, item.select)}
+                                                //{
+                                                // nosePoke()
+                                                // }
+                                                />)
+                                        }
+                                    />
+                                </>
                             )}
                         </View>
                     </View>
@@ -166,13 +203,14 @@ const styles = StyleSheet.create({
         //flex: 0.15,
         height: hp(15),
         //backgroundColor: 'yellow',
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        flexDirection: 'row'
     },
     btnSearch: {
         backgroundColor: '#F2F2F2',
         height: wp(11),
-        width: wp(80),
+        width: wp(60),
         borderRadius: 50,
         alignSelf: 'center',
     },

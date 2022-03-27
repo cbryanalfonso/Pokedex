@@ -4,7 +4,7 @@ import { Icon } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
 import TextUI from "../../components/Texto/TextUI";
 
-export default function ModalMenu({ navigation, isVisible, setVisible, pokeNavigate, pokeLegendarios, pokeTeam }) {
+export default function ModalMenu({ navigation, isVisible, setVisible, pokeNavigate, pokeLegendarios, pokeTeam , ...props}) {
     return (
         <>
             <StatusBar
@@ -28,12 +28,8 @@ export default function ModalMenu({ navigation, isVisible, setVisible, pokeNavig
                             <Image source={require('../../assets/img/pokeLogo-modified.png')} resizeMode='contain' style={{ width: 150 }} />
                         </View>
                         <View style={[styles.imgContainer, { flex: 0.5 }]}>
-                            <TextUI style={'textoMenu'} txt={' Pokedex '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} onPress={() => {
-                                /* navigation.navigate('Pokedex') */
-                                pokeNavigate
-                                setVisible(false)
-                            }} />
-                            <TextUI style={'textoMenu'} txt={' Legendarios '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} onPress={() => { pokeLegendarios }} />
+                            <TextUI style={'textoMenu'} txt={props.nameAux ? props.nameAux : ' Pokedex '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} onPress={pokeNavigate} />
+                            <TextUI style={'textoMenu'} txt={' Legendarios '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} onPress={pokeLegendarios} />
                             <TextUI style={'textoMenu'} txt={' Equipo '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} />
                             <TextUI style={'textoMenu'} txt={' Documentación '} addStyle={{ textAlign: 'center', letterSpacing: 3 }} />
                         </View>

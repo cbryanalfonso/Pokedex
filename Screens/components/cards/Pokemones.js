@@ -18,7 +18,7 @@ export default function Pokemones({ item, navigation }) {
             .then((value) => value.json())
             .then(value => {
                 setPokeInfo(value);
-                console.log("Nuevos datos -> ", value.id);
+                //console.log("Nuevos datos -> ", value.id);
                 setColor(value.types[0].type.name)
                 setImagePokemon(value.sprites.front_default);
                 setAttack(value.stats[1].base_stat);
